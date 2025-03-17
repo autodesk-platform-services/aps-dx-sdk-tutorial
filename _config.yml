@@ -1,0 +1,41 @@
+title: Data Exchange .Net SDK Tutorial
+remote_theme: just-the-docs/just-the-docs
+email: denis.grigor@autodesk.com
+heading_anchors: true
+footer_content: '<a href="https://github.com/autodesk-platform-services/aps-dx-sdk-tutorial/issues">Report an issue</a> with this page.'
+description: >- # this means to ignore newlines until "baseurl:"
+  This documentation will showcase the new Data Exchange .Net SDK.
+logo: "/assets/images/apslogo.png"
+baseurl: "/aps-dx-sdk-tutorial" # the subpath of your site, e.g. /blog
+url: "https://autodesk-platform-services.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+
+# permalink: none
+
+theme: "just-the-docs"
+
+search_enabled: true
+color_scheme: custom
+
+search:
+  # Split pages into sections that can be searched individually
+  # Supports 1 - 6, default: 2
+  heading_level: 2
+  # Maximum amount of previews per search result
+  # Default: 3
+  previews: 3
+  # Maximum amount of words to display before a matched word in the preview
+  # Default: 5
+  preview_words_before: 5
+  # Maximum amount of words to display after a matched word in the preview
+  # Default: 10
+  preview_words_after: 10
+  # Set the search token separator
+  # Default: /[\s\-/]+/
+  # Example: enable support for hyphenated search words
+  tokenizer_separator: /[\s/]+/
+  # Display the relative url in search results
+  # Supports true (default) or false
+  rel_url: true
+  # Enable or disable the search button that appears in the bottom right corner of every page
+  # Supports true or false (default)
+  button: false
