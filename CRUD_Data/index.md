@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Create, Read, Update and Delete Data
-nav_order: 3
+nav_order: 4
 has_children: false
 permalink: /crud_data/home/
 ---
