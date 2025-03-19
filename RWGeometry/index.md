@@ -75,7 +75,7 @@ Create exchanges using the following steps:
 
     ![instance_parameter](../../assets/images/instance_parameter.png)
 
-    At this point our Model is populated with nodes and relationships, but exists only in memory of our computer and it needs a host. We create an exchange an exchange container where we specify where it will be hosted, where it will be placed, how it will be named and so on. 
+    At this point our Model is populated with nodes and relationships, but exists only in memory of our computer and it needs a host. We create an exchange container where we specify where it will be hosted, where it will be placed, how it will be named and so on. 
     
     At least for now, the only hosting option available is ACC, but in future even non-Autodesk ones will be possible:
 
@@ -94,48 +94,51 @@ Create exchanges using the following steps:
 
     ```
 
-    Note that for ACCFolder
+    Note that for `ACCFolderURN`, `ProjectId` and `HubId` we can use the very same value that we had when we accessed the exchange created from ACC, as they will be located in the same place.
+
+5. Once the exchange conainer was defined, we ask the Data Exchange service, through `client` to create that exchange on ACC:
+
+    ```cs
+    var myTestExchangeDetails = client.CreateExchangeAsync(ExchangeCreateRequest).Result;
+    ```
+
+    At this point we will se that the exchange is created on ACC, but it is more of an empty shell for our model:
+
+    ![exchange_create](../../assets/images/exchange_create.png)
+    
+
+6. We have to sync our model into the created exchange, where we use the details from created shell:
+
+    ```cs
+    var exchangeIdentifier = new DataExchangeIdentifier()
+    {
+        ExchangeId = myCustomExchangeDetails.ExchangeID,
+        CollectionId = myCustomExchangeDetails.CollectionID,
+        HubId = myCustomExchangeDetails.HubId,
+    };
+
+    client.SyncExchangeDataAsync(exchangeIdentifier, model.ExchangeData).Wait();
+
+    ```
+
+    and finally our exchange is created and we can visualize it in ACC:
+
+    ![custom_exchange_view](../../assets/images/custom_exchange_view.png)
+
+Using the [Data Exchange Model Explorer](https://aps-dx-explorer.autodesk.io/) we can also inspect the properties of newly created exchange:
+
+![model_explorer](../../assets/images/model_explorer.png)
 
 
+## Conclusion
 
+At this point you have all the necessary ingridients to create exchanges from scratch, create elements, add geometries and properties to them and all this fully compatible with ACC.
 
+In case you need a sample reference, check [aps-dx-createexchange-form](https://github.com/autodesk-platform-services/aps-dx-createexchange-form) sample, which covers almost everything we discussed in this tutorial.
 
-var myTestExchangeDetails = client.CreateExchangeAsync(ExchangeCreateRequest).Result;
+Stay tuned for other two samples:
 
-var exchangeIdentifier = new DataExchangeIdentifier()
-{
-    ExchangeId = myTestExchangeDetails.ExchangeID,
-    CollectionId = myTestExchangeDetails.CollectionID,
-    HubId = hubId,
-};
+- **BasicExcelConnector** - copy into Excel and keep in sync the properties of given category of elements for some analysis.
 
-client.SyncExchangeDataAsync(exchangeIdentifier, model.ExchangeData).Wait();
+- **ExchangeCloner** - copy all the geometries and properties from an ACC created exchange and allows to freely add properties and geometries to it.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-The SDK simplifies creating or reading Geometry and Parameters.
-
-
-The creation of the exchanges using Data Exchange GraphQL API can be made through a mutation call that is generic enough for all formats but takes into account some particularities. A very good example is creation of an exchange from Revit file compared to creating it from AEC Data Model. A Revit model will contain views and when creating an exchange you have to specify the View from which you would like to create the exchange. In case of AEC Data Model, you can specify the Categories, Family and Type of components that should be included into the exchange. 
-
-## Reading Geometry
-
-
-![download_all_geometry_as_step](../../assets/images/download_all_geometry_as_step.png)
-
-![download_wall_geometry](../../assets/images/download_wall_geometry.png)
-
-
-
-[Next Step - Exploring Advanced Topics](../../advanced/home/){: .btn}

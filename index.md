@@ -31,8 +31,6 @@ This tutorial is divided into 5 main sections:
 
 4. [Creating exchanges](./create_exchange/home/)
 
-5. [Exploring Advanced Topics](./advanced/home/)
-
 We'll start by ensuring that everyone addresses the prerequisites.
 
 [Next Step - Prerequisites and SDK Access](./prerequisites/home/){: .btn}
