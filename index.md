@@ -18,7 +18,14 @@ A connector enables end-users to easily create and consume exchanges that are sp
 
 In this tutorial, we'll cover the first steps in your journey with the Data Exchange .NET SDK in a quick and simple way, by starting building a simple connector and incremently adding features to it. 
 
-By the end, we will have a [connector to Excell](https://github.com/autodesk-platform-services/BootstrapDXConnector), that will allow reading, updating, writing and deleting properties from an exchange:
+By the end of this tutorial, we will have a [connector to Excell](https://github.com/autodesk-platform-services/BootstrapDXConnector), that will:
+
+- take an exchange created from a Revit model, 
+- identify the Walls elements, 
+- read the properties and find the Area property for each wall element, 
+- add these values to an excel file, designed to calculate the total area of the walls.
+
+A very simple workflow that hypothetically can be helpful for situations like estimating the cost of a painting or finishing job:
 
 ![final result](./assets/images/result.gif)
 
@@ -31,9 +38,9 @@ This tutorial is divided into 5 main sections:
 
 2. [Connecting to Data Exchange](./connection/home/)
 
-3. [Create, Read, Update and Delete Data](./crud_data/home/)
+3. [Access Data and Geometry](./crud_data/home/)
 
-4. [Read and Write Geometry](./wr_geometry/home/)
+4. [Creating exchanges](./create_exchange/home/)
 
 5. [Exploring Advanced Topics](./advanced/home/)
 

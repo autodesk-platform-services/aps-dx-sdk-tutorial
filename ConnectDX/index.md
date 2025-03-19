@@ -80,4 +80,4 @@ and get many other details of the person that authorized the App:
 
 Once everything is fine we can proceed further with Data Exchange .Net SDK exploration.
 
-[Next Step - Read, Update, Create and Delete data](../../crud_data/home/){: .btn}
+[Next Step - Access Data and Geometry](../../crud_data/home/){: .btn}

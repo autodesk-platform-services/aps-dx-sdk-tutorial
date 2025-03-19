@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Create, Read, Update and Delete Data
+title: Access Data and Geometry
 nav_order: 4
 has_children: false
 permalink: /crud_data/home/
@@ -32,17 +32,21 @@ An Element refers to [Parameters](https://aps.autodesk.com/en/docs/dx-sdk-beta/v
 
 ![prameters](../../assets/images/parameters.png)
 
-An element can also reference Geometry, but we will cover that in next chapter and for now we will concentrate on Parameters.
+An element can also reference Geometry and multiple Elements can be referenced within the ElementGeometry model:
+
+![element_geometry](../../assets/images/element_geometry.png)
+
+Let us keep in mind the theoretical aspect discussed above and continue with practical side, where all of these concepts will be very useful in understanding the SDK. 
 
 ## Understand the SDK
 
-The SDK simplifies creating or reading Parameters and as described above, to be able to work with an exchange, the client-side model has to be created for the given echange:
+The SDK simplifies creating or reading Geometry and Parameters. To be able to work with an exchange, the client-side model has to be created for the given echange:
 
 ```cs
 public static ElementDataModel Create(IClient client, ExchangeData exchangeData = null)
 ```
 
-In this case we don't provide the `echangeData` value, an exchange from scratch will be created. We will leave this for the [Advanced Topics](./advanced/home/) and now concentrate on reading data from an existing exchange.
+If we don't provide the `echangeData` value, an exchange from scratch will be created. We will leave this for the next chapter where we will cover the [Creating exchanges](./wr_geometry/home/) topic, while now we will concentrate on reading data from an existing exchange.
 
 The [ExchangeData](https://aps.autodesk.com/en/docs/dx-sdk-beta/v1/sdk-reference/autodesk-dataexchange/Autodesk.DataExchange.Models/ExchangeData/) class is representation of an exchange from Asset perspective, and at this stage we will use it just for creation of the ElementDataModel, which can be achieved by using the `client` we created in previous chapter:
 
@@ -55,7 +59,7 @@ In [Advanced Topics](./advanced/home/) we will look at the same method, but with
 
 For now, we are interested in getting the most recent version and for that we have to provide a [DataExchangeIdentifier](https://aps.autodesk.com/en/docs/dx-sdk-beta/v1/sdk-reference/autodesk-dataexchange/Autodesk.DataExchange.Core.Models/DataExchangeIdentifier/) instance that just holds information on `HubID`, `CollectionID` and `ExchangeID`, as the name suggests, needed to identify an exchange. 
 
-Depending on situation, these values can be already available, but if not, the `urn` of the exchange that we get through:  
+Depending on situation, these values can be already available, but if not, the `urn` of the exchange we can get through:  
 
 - **Data Management API** when looking at folder content using a REST call:
 
@@ -158,9 +162,78 @@ foreach (Element wallElement in wallElements)
 }
 ```
 
+### Reading Geometry
+
+We can download the geometry of the entire model and for that we can use the following methods of the `client` instance:
+
+```cs
+public string DownloadCompleteExchangeAsSTEP(DataExchangeIdentifier exchangeIdentifier, 
+    string stepFilePath = null)
+```
+
+as the name indicates, to download it in STEP format, or
+
+```cs
+public string DownloadCompleteExchangeAsOBJ(string exchangeID, string collectionId, 
+    string objFilePath = null)
+```
+to download it as OBJ file.
+
+In both cases, the returned string will be the system path to our geometry and if we don't specify the `*FilePath`, it will be created for us.
+
+By calling in our code:
+
+```cs
+var path = client.DownloadCompleteExchangeAsSTEP(exchangeIdentifier);
+```
+and the value of `path` will be something like C:\Users\me\AppData\Roaming\MyConnector\Workspace\8b5...7675de\Geometry\a0028e3...515517c\3411ce7e...af215a8d8.stp
+
+which can be visualized in Viewer:
+
+![entire_geometry](../../assets/images/download_all_geometry_as_step.png)
+
+However, as we mentioned in our introduction to Data Exchange, it strives for granular access and this is valid not only for data, but also for geometry.
+
+The [ElementDataModel](https://aps.autodesk.com/en/docs/dx-sdk-beta/v1/sdk-reference/autodesk-dataexchange/Autodesk.DataExchange.DataModels/ElementDataModel/) has a method that allows to download geometry of specific elements:
+
+```cs
+public Task<Dictionary<Element, IEnumerable<ElementGeometry>>> GetElementGeometriesByElementsAsync(
+    IEnumerable<Element> elements, GeometryOutputOptions geometryOutputOptions = null)
+
+```
+In it's essence, you provide a list of elements and get back a collection of local paths. 
+If you don't provide `GeometryOutputOptions` param, it will default to STEP format, other option being OBJ.
+
+By now we should be familiar with filtering the elements by properties, so if we are interested in geometry of a specific element, we can filter for it and request it's geometry:
+
+```cs
+var geoms = dataModel.GetElementGeometriesByElementsAsync(wallElements.Where(item => item.Name == "139854")).Result;
+```
+
+and get back the `path` to where the geometry is located:
+
+![wall_geom_details](../../assets/images/wall_geom_details.png)
+
+and vizualize the results:
+
+![download_wall_geometry](../../assets/images/download_wall_geometry.png)
+
+
+
 >At this stage, everything should be operating without errors. If there are any issues, please refer to the [BootstrapConnector](https://github.com/autodesk-platform-services/BootstrapDXConnector/tree/read_data) for reference on how it should look at this step.
 
 
-Once everything is fine we can proceed further with Data Exchange .Net SDK exploration.
+Reading data and geometry from an exchange is great and already opens the way for interesting workflows. With what we mastered so far we already can create connectors that are based only on reading data and geometry. 
 
-[Next Step - Read and Write Geometry](../../wr_geometry/home/){: .btn}
+A very simple example of the workflow that hypothetically can be helpful for situations like estimating the cost of a painting or finishing job, can be created by having the following algorithm:
+
+- take an exchange created from a Revit model for needed part of the building, 
+- identify the Walls elements in the exchange, 
+- read the properties and find the Area property for each wall element, 
+- add these values to an excel file, designed to calculate the total area of the walls and includes the price of painting per sqm.
+
+and here you go, you have a very simple connector to Excel that analyze data and this simple workflow is a subject of a sample that will be soon available.
+
+This is nice, yet the main power of the SDK is not only accessing data and geometry from an existing exchange, but creation of exchanges from scratch with power of modifying it further and this is exactly what we will look into in the next chapter.
+
+[Next Step - Creating exchanges](../../create_exchange/home/){: .btn}
