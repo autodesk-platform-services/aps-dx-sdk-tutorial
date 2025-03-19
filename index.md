@@ -16,20 +16,9 @@ nav_order: 1
 The Autodesk Data Exchange SDK (.NET) is a client-side component designed to build quick integrations into Data Exchange services, simply called connector.
 A connector enables end-users to easily create and consume exchanges that are specific to their applications.
 
-In this tutorial, we'll cover the first steps in your journey with the Data Exchange .NET SDK in a quick and simple way, by starting building a simple connector and incremently adding features to it. 
+In this tutorial, we'll cover the first steps in your journey with the Data Exchange .NET SDK in a quick and simple way, by going through features that the SDK offers. 
 
-By the end of this tutorial, we will have a [connector to Excell](https://github.com/autodesk-platform-services/BootstrapDXConnector), that will:
-
-- take an exchange created from a Revit model, 
-- identify the Walls elements, 
-- read the properties and find the Area property for each wall element, 
-- add these values to an excel file, designed to calculate the total area of the walls.
-
-A very simple workflow that hypothetically can be helpful for situations like estimating the cost of a painting or finishing job:
-
-![final result](./assets/images/result.gif)
-
-We can start with a [BootstrapConnector](https://github.com/autodesk-platform-services/BootstrapDXConnector/tree/start) that contains the minimum code required to check if all the settings are valid for a connection to Data Exchange.
+At the end of this tutorial you will have enough knowledge to build your own connector adjusted to your own need and workflows.
 
 
 This tutorial is divided into 5 main sections:

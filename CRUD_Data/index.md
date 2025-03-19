@@ -219,10 +219,6 @@ and vizualize the results:
 ![download_wall_geometry](../../assets/images/download_wall_geometry.png)
 
 
-
->At this stage, everything should be operating without errors. If there are any issues, please refer to the [BootstrapConnector](https://github.com/autodesk-platform-services/BootstrapDXConnector/tree/read_data) for reference on how it should look at this step.
-
-
 Reading data and geometry from an exchange is great and already opens the way for interesting workflows. With what we mastered so far we already can create connectors that are based only on reading data and geometry. 
 
 A very simple example of the workflow that hypothetically can be helpful for situations like estimating the cost of a painting or finishing job, can be created by having the following algorithm:
