@@ -18,7 +18,7 @@ Before starting, ensure you meet a few key prerequisites to follow this tutorial
 
 - Once you have the **ClientID**, you will need to provision it on the ACC. Please make sure it is provisioned by following the steps [How to provision your ClientID on ACC](https://get-started.aps.autodesk.com/#provision-access-in-other-products).
 
-- You will need some C# .Net programming knowledge to follow along. You can start from the scratch, but we recommend starting with **BootstrapConnector** [GitHub repo](https://github.com/autodesk-platform-services/BootstrapDXConnector/tree/start) that contains only the code and the refrence to dependencies or with [Zip repo](https://myshare.autodesk.com/:u:/g/personal/denis_grigor_autodesk_com/ERJ29Oq8VkBLhLpROUhSDm0BlvedRhPKu8rs9UHUVsW7VA?e=lykwXA) that contains all the dependencies already attached to the project.
+- You will need some C# .Net programming knowledge to follow along.
 
 - If you want to follow along with the same design, you can download [this archive containing a Revit design](https://autodesk-adn-transfer.s3.us-west-2.amazonaws.com/ADN+Extranet/AEC/public_downloads/OfficeBuilding.zip) in three different versions, which is very helpful exploring the Data Exchange features.
 
